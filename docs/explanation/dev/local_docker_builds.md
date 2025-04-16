@@ -1,95 +1,85 @@
-# Using Local Code for Docker Builds
+# Developing with Docker Without Rebuilding
 
-SpiffArena is configured to always build and run using local code instead of pulling pre-built images from a registry. This approach offers several advantages:
+SpiffArena is configured for a seamless development experience using Docker containers with live code reloading. This means you can edit code on your local machine and see changes immediately without rebuilding containers.
 
-1. **Always up-to-date**: You're always working with the latest code from your local repository
-2. **Local modifications**: You can make changes to the code and see them reflected in the running application
-3. **Offline development**: You can develop without needing to pull images from external registries
-4. **Consistent environment**: Everyone on the team works with the same build process
+## Key Benefits
 
-## How It Works
+1. **Instant feedback**: Changes to your code are reflected immediately in the running application
+2. **No rebuild wait times**: Avoid the time-consuming process of rebuilding Docker images
+3. **Consistent environment**: Everyone on the team works with the same development setup
+4. **Local development**: All code remains on your local machine for easy editing with your preferred tools
 
-The `docker-compose.yml` file is configured to build images from local directories instead of pulling them from a registry:
+## How Live Code Reloading Works
+
+The development Docker Compose files mount your local code directories into the containers:
 
 ```yaml
 services:
   spiffworkflow-frontend:
-    container_name: spiffworkflow-frontend
-    build:
-      context: ./spiffworkflow-frontend
-      dockerfile: Dockerfile
     # ...
+    volumes:
+      - ./spiffworkflow-frontend:/app
 
   spiffworkflow-backend:
-    container_name: spiffworkflow-backend
-    build:
-      context: ./spiffworkflow-backend
-      dockerfile: Dockerfile
     # ...
+    volumes:
+      - ./spiffworkflow-backend:/app
 
   spiffworkflow-connector:
-    container_name: spiffworkflow-connector
-    build:
-      context: ./connector-proxy-demo
-      dockerfile: Dockerfile
     # ...
+    volumes:
+      - ./connector-proxy-demo:/app
 ```
 
-## Running with Local Builds
+This means:
 
-To run the application with local builds:
-
-```bash
-# Clone the repository
-git clone https://github.com/sartography/spiff-arena.git
-cd spiff-arena
-
-# Build and run the containers
-docker compose build
-docker compose up
-```
-
-You can also use the provided script:
-
-```bash
-./bin/run_arena_with_docker_compose
-```
-
-Or use the make command for a more comprehensive development setup:
-
-```bash
-make
-```
+- Changes to frontend code trigger React's hot-reloading mechanism
+- Changes to backend code trigger Flask's development server to reload
+- All changes are immediately available in the running application
 
 ## Development Workflow
 
-When working with local Docker builds:
+The recommended workflow for development is:
 
-1. Make changes to the code in your local repository
-2. Rebuild the containers with `docker compose build`
-3. Restart the containers with `docker compose up`
+1. Start the development environment: `make dev-env && make start-dev`
+2. Edit code files on your local machine with your preferred editor/IDE
+3. See changes reflected immediately in the running application
+4. Run tests as needed: `make be-tests-par` or `make run-pyl`
 
-For a more streamlined development experience, you can use the development Docker Compose files and the Makefile:
+No container rebuilding or restarting is necessary for most code changes!
+
+## When Rebuilding Is Necessary
+
+You only need to rebuild containers in specific cases:
+
+1. When changing dependencies (package.json, pyproject.toml, etc.)
+2. When modifying Dockerfiles or Docker Compose configurations
+3. When installing new system packages
+
+In these cases, run:
 
 ```bash
-# Set up the development environment
+# For dependency changes
 make dev-env
 
-# Start the development servers
-make start-dev
-
-# Stop the development servers
-make stop-dev
+# For Docker configuration changes
+docker compose -f docker-compose.yml \
+  -f spiffworkflow-backend/dev.docker-compose.yml \
+  -f spiffworkflow-frontend/dev.docker-compose.yml \
+  -f connector-proxy-demo/dev.docker-compose.yml \
+  -f dev.docker-compose.yml \
+  build
 ```
 
 ## Troubleshooting
 
-If you encounter issues with the local builds:
+If you encounter issues with live code reloading:
 
-1. Make sure you have the latest version of Docker and Docker Compose installed
-2. Check that all required files are present in your local repository
-3. Try cleaning the Docker cache with `docker system prune`
-4. Ensure you have sufficient disk space for building the images
+1. Verify that volume mounts are working correctly: `docker compose exec spiffworkflow-backend ls -la /app`
+2. Check that development servers are running in watch mode
+3. For frontend issues, check the browser console for errors
+4. For backend issues, check the container logs: `docker logs spiffworkflow-backend`
+5. Try restarting the containers: `make stop-dev && make start-dev`
 
 ```{tags} how_to_guide, dev_docs
 ```

@@ -168,25 +168,24 @@ docker compose up -d
 By doing this, you'll build images from your local code, shut down the current containers, and then start them up again with the updated configurations.
 This should help in ensuring that the frontend loads completely and communicates effectively with the backend.
 
-### **24: Using Local Code Instead of Registry Images**
+### **24: Developing Without Rebuilding Docker Containers**
 
-**Q:** How can I ensure SpiffArena always uses my local code instead of pulling images from a registry?
+**Q:** How can I develop with SpiffArena without having to rebuild Docker containers every time I make a code change?
 
-**A:** SpiffArena is now configured to always build from local code by default. The `docker-compose.yml` file has been updated to use `build` configurations instead of `image` references. To use this approach:
+**A:** SpiffArena is configured for live code reloading in development mode. This means you can edit code on your local machine and see changes immediately without rebuilding containers:
 
-1. Clone the repository:
+1. Set up the development environment:
    ```bash
    git clone https://github.com/sartography/spiff-arena.git
    cd spiff-arena
+   make dev-env
+   make start-dev
    ```
 
-2. Build and run using local code:
-   ```bash
-   docker compose build
-   docker compose up
-   ```
+2. Edit code files on your local machine with your preferred editor/IDE
+3. Changes will be automatically detected and reflected in the running application
 
-This ensures you're always working with your local code and can make modifications as needed. For more details, see [Using Local Code for Docker Builds](../explanation/dev/local_docker_builds.md).
+This works because the development Docker setup mounts your local code directories into the containers, and both the frontend and backend are configured to detect and reload on code changes. For more details, see [Developing with Docker Without Rebuilding](../explanation/dev/local_docker_builds.md).
 
 ### **25: Resolving Docker Permission Issues When Installing SpiffArena (Linux)
 

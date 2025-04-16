@@ -1,61 +1,88 @@
 # Developer Setup
 
-There are a few options here:
+SpiffArena is designed to be developed entirely using Docker containers. This approach ensures a consistent development environment and eliminates the need to install dependencies directly on your machine.
 
-1. The make-based setup will spin up Docker containers and allow you to edit based on the latest source.
-2. The docker-compose-based setup will build and spin up Docker containers from local source code.
-3. The non-Docker setup will allow you to run the Python and React apps from your machine directly.
-4. Set up in a Windows environment using Docker Desktop
+## Prerequisites
 
-Please pick the one that best fits your needs.
+The only requirements for development are:
 
-## 1. Use the default make task
+1. Docker
+2. Docker Compose
 
-You can set up a full development environment for SpiffWorkflow like this:
+## Development Options
+
+There are two main approaches to Docker-based development:
+
+1. **Make-based setup** - Recommended for most developers
+2. **Manual Docker Compose setup** - For those who prefer more control
+
+## 1. Using the Make-based Setup (Recommended)
+
+This is the simplest way to get started with SpiffWorkflow development:
+
 ```sh
 git clone https://github.com/sartography/spiff-arena.git
 cd spiff-arena
-make
+make dev-env   # Build images and install dependencies
+make start-dev # Start the development servers
 ```
 
 [This video](https://youtu.be/BvLvGt0fYJU?si=0zZSkzA1ZTotQxDb) shows what you can expect from the `make` setup.
 
-## 2. Run the docker-compose setup
+## 2. Manual Docker Compose Setup
 
-This setup builds and runs the application using your local code instead of pulling pre-built images from a registry:
+If you prefer more control over the Docker setup, you can use Docker Compose directly:
 
 ```sh
 git clone https://github.com/sartography/spiff-arena.git
 cd spiff-arena
-docker compose build  # Build images from local code
-docker compose up     # Run the containers
+
+# Use the development Docker Compose files
+docker compose -f docker-compose.yml \
+  -f spiffworkflow-backend/dev.docker-compose.yml \
+  -f spiffworkflow-frontend/dev.docker-compose.yml \
+  -f connector-proxy-demo/dev.docker-compose.yml \
+  -f dev.docker-compose.yml \
+  build
+
+docker compose -f docker-compose.yml \
+  -f spiffworkflow-backend/dev.docker-compose.yml \
+  -f spiffworkflow-frontend/dev.docker-compose.yml \
+  -f connector-proxy-demo/dev.docker-compose.yml \
+  -f dev.docker-compose.yml \
+  up
 ```
 
 For more details on using local code for Docker builds, see [Using Local Code for Docker Builds](local_docker_builds.md).
 
-## 3. Non-Docker setup
+## 3. Windows Setup
 
-Please see the instructions in the [spiff-arena README](https://github.com/sartography/spiff-arena/?tab=readme-ov-file#backend-setup-local).
+* Install Docker Desktop for Windows
+* Install Git for Windows
+* Open PowerShell and clone the repository:
 
-## 4. Running Windows?
-* Install Docker desktop app
-* Install Git
-* Fire up a PowerShell and clone the repo of Spiff arena:
 ```sh
- git clone  https://github.com/sartography/spiff-arena.git
- cd spiff-arena
+git clone https://github.com/sartography/spiff-arena.git
+cd spiff-arena
 ```
-* Modify the following file in your checkout "spiff-arena\docker-compose.yml"
-* you want find the environment variable below, and change it to your ip
-  address.
+
+* If you need to access the application from other machines on your network, modify the `docker-compose.yml` file to use your IP address:
+
 ```sh
 SPIFFWORKFLOW_BACKEND_CONNECTOR_PROXY_URL: "${SPIFFWORKFLOW_BACKEND_CONNECTOR_PROXY_URL:-http://[YOUR_IP_ADDRESS]:8004}"
 ```
-* Open Powershell in admin mode
-* Type the following:
+
+* Run the development setup using Make:
+
+```sh
+make dev-env
+make start-dev
 ```
-cd C:\Users\[YOUR_USER]\Documents\GitHub\spiff-arena
-docker compose up (build)
+
+* Or if you prefer to use Docker Compose directly:
+
+```sh
+docker compose -f docker-compose.yml -f spiffworkflow-backend/dev.docker-compose.yml -f spiffworkflow-frontend/dev.docker-compose.yml -f connector-proxy-demo/dev.docker-compose.yml -f dev.docker-compose.yml up
 ```
 
 ## BONUS: Running your own connector proxy to create custom connections to other software and systems on your network
