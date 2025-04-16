@@ -3,7 +3,9 @@
 services:
   spiffworkflow-frontend:
     container_name: spiffworkflow-frontend
-    image: ghcr.io/sartography/spiffworkflow-frontend:latest
+    build:
+      context: ./spiffworkflow-frontend
+      dockerfile: Dockerfile
     depends_on:
       spiffworkflow-backend:
         condition: service_started
@@ -26,7 +28,9 @@ services:
 
   spiffworkflow-backend:
     container_name: spiffworkflow-backend
-    image: ghcr.io/sartography/spiffworkflow-backend:latest
+    build:
+      context: ./spiffworkflow-backend
+      dockerfile: Dockerfile
     # Enable setting the ownership of created files to match the local user:group. For example:
     #     RUN_AS="$(id -u):$(id -g)" docker compose up -d
     user: ${RUN_AS:-0:0}
@@ -67,7 +71,9 @@ services:
 
   spiffworkflow-connector:
     container_name: spiffworkflow-connector
-    image: ghcr.io/sartography/connector-proxy-demo:latest
+    build:
+      context: ./connector-proxy-demo
+      dockerfile: Dockerfile
     environment:
       FLASK_ENV: "${FLASK_ENV:-development}"
       FLASK_DEBUG: "0"

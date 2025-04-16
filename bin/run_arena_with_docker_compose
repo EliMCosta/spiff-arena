@@ -7,8 +7,6 @@ function error_handler() {
 trap 'error_handler ${LINENO} $?' ERR
 set -o errtrace -o errexit -o nounset -o pipefail
 
-mkdir -p spiffworkflow_docker_compose
-cd spiffworkflow_docker_compose
-wget https://raw.githubusercontent.com/sartography/spiff-arena/main/docker-compose.yml
-docker compose pull
+# Use local docker-compose.yml instead of downloading from GitHub
+docker compose build
 docker compose up -d --wait

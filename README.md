@@ -31,7 +31,7 @@ When these are installed, you are ready for:
 
 **Mac Port Errors**: On a Mac, port 7000 (used by the backend) might be hijacked by Airplay. For those who upgraded to macOS 12.1 and are running everything locally, your AirPlay receiver may have started on Port 7000 and your server (which uses port 7000 by default) may fail due to this port already being used. You can disable this port in System Preferences > Sharing > AirPlay receiver.
 
-**Poetry Install Errors**: If you encounter errors with the Poetry install, please note that MySQL and PostgreSQL may require certain packages exist on your system prior to installing these libraries. 
+**Poetry Install Errors**: If you encounter errors with the Poetry install, please note that MySQL and PostgreSQL may require certain packages exist on your system prior to installing these libraries.
 Please see the [PyPi mysqlclient instructions](https://pypi.org/project/mysqlclient/) and the pre-requisites for the [Postgres psycopq2 adapter](https://www.psycopg.org/docs/install.html#prerequisites) Following the  instructions here carefully will assure your OS has the right dependencies installed.
 Correct these, and rerun the above commands.
 
@@ -71,13 +71,25 @@ Get the app running so you can access the frontend at http://localhost:7001 in y
 
 ## Docker
 
-For full instructions, see [Running SpiffWorkflow Locally with Docker](https://www.spiffworkflow.org/posts/articles/get_started_docker/).
+The project is configured to always build and run using local code instead of pulling pre-built images from a registry. This ensures you're always working with the latest code and can make local modifications as needed.
+
+To run the application with Docker:
+
+```bash
+# Clone the repository
+git clone https://github.com/sartography/spiff-arena.git
+cd spiff-arena
+
+# Build and run the containers
+docker compose build
+docker compose up
+```
 
 The `docker-compose.yml` file is for running a full-fledged instance of spiff-arena while `editor.docker-compose.yml` provides BPMN graphical editor capability to libraries and projects that depend on SpiffWorkflow but have no built-in BPMN edit capabilities.
 
 ### Using Docker for Local Development
 
-If you have `docker` and `docker compose`, as an alternative to locally installing the required dependencies, you can leverage the development docker containers and `Makefile` while working locally. To use, clone the repo and run `make`. This will build the required images, install all dependencies, start the servers and run the linting and tests. Once complete you can [open the app](http://localhost:8001) and code changes will be reflected while running. 
+If you have `docker` and `docker compose`, as an alternative to locally installing the required dependencies, you can leverage the development docker containers and `Makefile` while working locally. To use, clone the repo and run `make`. This will build the required images, install all dependencies, start the servers and run the linting and tests. Once complete you can [open the app](http://localhost:8001) and code changes will be reflected while running.
 
 After the containers are set up, you can run `make start-dev` and `make stop-dev` to start and stop the servers. If the frontend or backend lock file changes, `make dev-env` will recreate the containers with the new dependencies.
 

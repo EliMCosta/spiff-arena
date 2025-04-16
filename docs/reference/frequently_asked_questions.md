@@ -86,32 +86,32 @@ workflow.reset_from_task_id(start.id)
 
 ### **13. Determining the Lane of a Task in a Workflow**
 
-**Q:** In the pre/post script of a task in a workflow, how do I determine what lane the current task is in?  
+**Q:** In the pre/post script of a task in a workflow, how do I determine what lane the current task is in?
 **A:** You can access the task and use `task.task_spec.lane` to get the lane as a string. This allows you to programmatically determine which lane a task belongs to during its execution.
 
 ### **14. Understanding Script Attributes Context**
 
-**Q:** I'm trying to understand the details of `script_attributes_context`. Where can I find more information?  
+**Q:** I'm trying to understand the details of `script_attributes_context`. Where can I find more information?
 **A:** The `ScriptAttributesContext` class is defined [here](https://github.com/sartography/spiff-arena/blob/deploy-mod-prod/spiffworkflow-backend/src/spiffworkflow_backend/models/script_attributes_context.py#L9).
 
 ### **15. Using Message Start Event to Kick Off a Process**
 
-**Q:** How do I use a message start event to kick off a process?  
+**Q:** How do I use a message start event to kick off a process?
 **A:** This [script](https://github.com/sartography/spiff-arena/blob/main/spiffworkflow-backend/bin/run_message_start_event_with_api#L39) is an example of using a message start event to kick off a process.
 
 ### **16. Making REST API Calls in SpiffArena**
 
-**Q:** How do I make REST API calls in SpiffArena?  
+**Q:** How do I make REST API calls in SpiffArena?
 **A:** You can use Service Tasks driven by a Connector Proxy. Check out the [Connector Proxy Demo](https://github.com/sartography/connector-proxy-demo) for more details.
 
 ### **17. Assigning User Tasks in SpiffWorkflow**
 
-**Q:** How does one use camunda:assignee="test" in a userTask with Spiff?  
+**Q:** How does one use camunda:assignee="test" in a userTask with Spiff?
 **A:** In SpiffWorkflow, user task assignments can be managed using Lanes in your BPMN diagram. Each Lane can designate which individual or group can execute the tasks within that Lane. If you're looking to interface permissions based on external application user roles, you can manage roles externally and pass the user and group information to assign them to the Lanes.
 
 ### **18. Mimicking an Inclusive Gateway in SpiffWorkflow**
 
-**Q:** How can we mimic an inclusive gateway since SpiffWorkflow doesn't support it?  
+**Q:** How can we mimic an inclusive gateway since SpiffWorkflow doesn't support it?
 **A:** You can work around the absence of an inclusive gateway in SpiffWorkflow by using a Parallel Gateway. Within each path following the Parallel Gateway, you can place an Exclusive Gateway to check for the conditions that are or are not required. This approach is effective if the flows can eventually be merged back together.
 
 ![Mimicking Inclusive Gateway](/images/Mimicking_inclusive_gateway.png)
@@ -160,15 +160,35 @@ This issue has been resolved in the newer versions.
 To potentially fix this, you can update your setup by running the following commands in the directory where you downloaded the `docker-compose.yml` file:
 
 ```
-docker compose pull
+docker compose build
 docker compose down
 docker compose up -d
 ```
 
-By doing this, you'll pull the latest images, shut down the current containers, and then start them up again with the updated configurations.
+By doing this, you'll build images from your local code, shut down the current containers, and then start them up again with the updated configurations.
 This should help in ensuring that the frontend loads completely and communicates effectively with the backend.
 
-### **24: Fixing  Resolving Docker Permission Issues When Installing SpiffArena (Linux)
+### **24: Using Local Code Instead of Registry Images**
+
+**Q:** How can I ensure SpiffArena always uses my local code instead of pulling images from a registry?
+
+**A:** SpiffArena is now configured to always build from local code by default. The `docker-compose.yml` file has been updated to use `build` configurations instead of `image` references. To use this approach:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sartography/spiff-arena.git
+   cd spiff-arena
+   ```
+
+2. Build and run using local code:
+   ```bash
+   docker compose build
+   docker compose up
+   ```
+
+This ensures you're always working with your local code and can make modifications as needed. For more details, see [Using Local Code for Docker Builds](../explanation/dev/local_docker_builds.md).
+
+### **25: Resolving Docker Permission Issues When Installing SpiffArena (Linux)
 
 **Q:**
 When installing Spiff Arena on Linux using Docker, users may encounter the following error:
@@ -180,20 +200,20 @@ unable to get image 'ghcr.io/sartography/spiffworkflow-backend:latest': permissi
 This happens because Docker requires elevated (root) permissions, and the user is not part of the Docker group.
 
 **Solution:**
-1. **Check Docker Status:**  
+1. **Check Docker Status:**
    Run `docker ps` to check if Docker is running. If permission denied, proceed with the steps below.
 
-2. **Add User to Docker Group:**  
+2. **Add User to Docker Group:**
    Run the following commands:
    ```bash
    sudo groupadd docker  # Only if Docker group doesn't exist
    sudo usermod -aG docker $USER
    ```
-   
-3. **Log Out and Back In:**  
+
+3. **Log Out and Back In:**
    Log out and log back in for the changes to take effect.
 
-4. **Verify:**  
+4. **Verify:**
    Run `docker ps` again to confirm the issue is resolved.
 
 For more details, refer to Docker’s [guide](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
@@ -488,7 +508,7 @@ For a detailed guide on setting up and managing a connector proxy in just five m
 **Q:** How can I create a process that retrieves data from a REST endpoint using a service task in SpiffWorkflow?
 
 **A:**
-To retrieve data from a REST endpoint using a service task (`serviceTaskOperator: "http/GetRequest"`), you need to define a connector. When running SpiffWorkflow as a library, service tasks act as placeholders and require a custom script engine or connector proxy to execute the tasks. 
+To retrieve data from a REST endpoint using a service task (`serviceTaskOperator: "http/GetRequest"`), you need to define a connector. When running SpiffWorkflow as a library, service tasks act as placeholders and require a custom script engine or connector proxy to execute the tasks.
 
 Ensure your service task is correctly configured with parameters such as URL, headers, and authentication details. The URL must be properly quoted in the configuration to avoid syntax errors.
 
@@ -513,7 +533,7 @@ Ensure your service task is correctly configured with parameters such as URL, he
 **Q:** Why do I receive different behaviors when running the same service task in SpiffWorkflow library vs. SpiffArena?
 
 **A:**
-In SpiffWorkflow library, service tasks do not have built-in functionality and are essentially placeholders that require external implementations to function. 
+In SpiffWorkflow library, service tasks do not have built-in functionality and are essentially placeholders that require external implementations to function.
 
 In contrast, SpiffArena requires connectors to be set up for service tasks to function, which might lead to errors if the connectors or their configurations are incorrect. Errors such as "invalid syntax" typically occur when expressions (like URLs) are not properly formatted.
 
@@ -534,13 +554,13 @@ Common errors occur when configuring HTTP Service Tasks.
 **A:** In the sub-process:
   - Use single `=` for variable assignments (e.g., `result = "approve"`).
   - Avoid using double `==`, as it is a comparison operator, not an assignment.
-  
+
   Also, ensure input/output mappings are correctly defined in the parent process to facilitate data transfer.
 
 ### **47: Retrieve Lane or Group Information**
 **Q:** How do I retrieve lane or group information during task execution?**
 
-**A:** 
+**A:**
 Users need to retrieve the group or username associated with a specific lane during task execution for sending notifications or dynamic task assignment.
 - Use the lane name with `get_group_members()` to fetch the corresponding group or users dynamically:
   ```python
@@ -551,37 +571,37 @@ Users need to retrieve the group or username associated with a specific lane dur
 ### **48: Modify Process Instances during Execution**
 **Q:** Can I modify process instances during execution?**
 
-**A:** 
-Users need to change task data or adjust token positions in running processes. The solution is: 
+**A:**
+Users need to change task data or adjust token positions in running processes. The solution is:
 1. Pause the process instance.
 2. Edit the task data via the admin panel.
 3. Resume the process after applying changes.
 
-**Limitations:**  
+**Limitations:**
 - Modifying data objects directly is not supported.
 - BPMN diagram changes cannot be made during runtime.
 
 ### **49: Running SpiffWorkflow on a Custom Hostname in Docker**
 **Q:** How do I change "localhost" to a custom hostname in SpiffWorkflow's Docker setup?
 
-**A:**   
-By default, the **Docker Compose** setup for SpiffWorkflow (as described in [this guide](https://www.spiffworkflow.org/posts/articles/get_started_docker/)) runs on `localhost`. If you want to access the environment from another machine on the same network, you need to change `localhost` to a custom hostname (e.g., `mycomputer1`).  
+**A:**
+By default, the **Docker Compose** setup for SpiffWorkflow (as described in [this guide](https://www.spiffworkflow.org/posts/articles/get_started_docker/)) runs on `localhost`. If you want to access the environment from another machine on the same network, you need to change `localhost` to a custom hostname (e.g., `mycomputer1`).
 
-When attempting to modify `docker-compose.yml` by replacing `localhost` with `mycomputer1`, the setup fails with the following error after running `docker compose down && docker compose up --build`:  
+When attempting to modify `docker-compose.yml` by replacing `localhost` with `mycomputer1`, the setup fails with the following error after running `docker compose down && docker compose up --build`:
 
 ```
 Server error
 We are sorry, but our service is temporarily unavailable due to technical difficulties. Please bear with us while we work to resolve the issue. If the problem persists, please contact the site administrator.
 ```
 
-To successfully change the hostname from `localhost` to a custom name:  
+To successfully change the hostname from `localhost` to a custom name:
 
-1. **Clone the Arena Compose Repository:**  
+1. **Clone the Arena Compose Repository:**
    ```sh
    git clone https://github.com/sartography/arena-compose-postgres
    ```
 
-2. **Run Docker Compose with the updated hostname:**  
+2. **Run Docker Compose with the updated hostname:**
    ```sh
    SPIFFWORKFLOW_PROTOCOL=http SPIFFWORKFLOW_HOST=mycomputer1 SPIFFWORKFLOW_PORT=3006 docker compose up
    ```

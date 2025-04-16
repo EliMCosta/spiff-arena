@@ -39,7 +39,8 @@ if [[ "${SPIFFWORKFLOW_BACKEND_RECREATE_DATABASE:-}" == "true" ]]; then
   docker volume rm spiffworkflow-backend_spiffworkflow_backend || echo 'docker volume not found'
 fi
 
-# docker compose isn't automatically pulling the image in ci so do it explicitly with docker
+# We'll use local builds instead of pulling from registry
+# Only pull the MySQL image which is needed
 docker pull mysql:8.0.29
 
 docker compose --profile "$SPIFFWORKFLOW_BACKEND_DOCKER_COMPOSE_PROFILE" up --wait $additional_args
