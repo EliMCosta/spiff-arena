@@ -22,9 +22,10 @@ services:
     restart: "no"
     # Use RUN_AS if set, otherwise default to root (0:0)
     entrypoint: |
-      /bin/sh -c "chown ${RUN_AS:-0:0} /app/db_volume"
+      /bin/sh -c "chown ${RUN_AS:-0:0} /app/db_volume && chown ${RUN_AS:-0:0} /app/process_models"
     volumes:
       - spiffworkflow_backend_db:/app/db_volume:rw
+      - ${SPIFFWORKFLOW_BACKEND_LOCAL_BPMN_SPEC_DIR:-./process_models}:/app/process_models:rw
 
   spiffworkflow-backend:
     container_name: spiffworkflow-backend

@@ -62,7 +62,20 @@ import pymysql
 pymysql.install_as_MySQLdb()
 ```
 
-### 5. Access Hosted Version of Spiff
+### 5. Permission Issues with process_models Directory
+
+When working with Docker, you might encounter permission errors when trying to create or modify process models:
+
+```
+PermissionError: [Errno 13] Permission denied: '/app/process_models/your-process-group-name'
+```
+
+To resolve these issues:
+
+- Run the permission fix script: `./bin/fix-permissions.sh`
+- For detailed information, see the [Permission Issues Guide](troubleshooting/permission_issues.md)
+
+### 6. Access Hosted Version of Spiff
 
 If you prefer not to install anything locally:
 

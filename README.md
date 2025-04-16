@@ -11,7 +11,7 @@ There are also additional articles, videos, and tutorials about SpiffArena and i
 
 ## Development Setup
 
-SpiffArena is designed to be developed entirely using Docker containers. This approach ensures a consistent development environment and eliminates the need to install dependencies directly on your machine.
+SpiffArena is designed to be developed entirely using Docker containers. This approach ensures a consistent development environment and eliminates the need to install dependencies directly on your machine. The project follows container-based development principles with live code changes without requiring rebuilds.
 
 ### Prerequisites
 
@@ -35,7 +35,8 @@ This will:
 1. Build the development Docker images
 2. Install all dependencies inside the containers
 3. Mount your local code directories into the containers
-4. Start the development servers
+4. Set up proper permissions for process model directories
+5. Start the development servers
 
 You can then access the application at http://localhost:8001
 
@@ -45,6 +46,18 @@ With this setup, you can edit code on your local machine and see changes reflect
 
 - Frontend changes will be automatically detected and hot-reloaded
 - Backend changes will be automatically detected by the Flask development server
+
+### Permissions
+
+The setup and start scripts automatically ensure proper permissions for the `process_models` directory, which is used to store BPMN process definitions. This prevents errors when creating or modifying process models.
+
+If you encounter any permission issues, you can run:
+
+```bash
+./bin/fix-permissions.sh
+```
+
+This script will set the correct ownership and permissions for the `process_models` directory. The permission handling is centralized in the common utilities to ensure consistent behavior across all scripts.
 
 ### Running Tests
 
@@ -73,7 +86,7 @@ The Docker setup includes a built-in OpenID server for authentication. When you 
 
 ## Docker Configuration
 
-The project uses Docker for both development and production environments. All Docker configurations are designed to mount local code into containers, allowing for live code changes without rebuilding.
+The project uses Docker for both development and production environments. All Docker configurations are designed to mount local code into containers, allowing for live code changes without rebuilding. The project is organized to integrate all components into a cohesive development environment while maintaining a clean repository structure.
 
 ### Development vs Production Docker Files
 
@@ -106,6 +119,9 @@ The project provides simple shell scripts for common development tasks:
 | `./bin/test.sh` | Runs all tests (or tests for a specific component if provided as an argument) |
 | `./bin/clean.sh` | Cleans up containers, volumes, dependencies, or all of them |
 | `./bin/shell.sh` | Opens a shell in a specific service container |
+| `./bin/fix-permissions.sh` | Fixes permissions for process_models directory |
+
+These scripts use shared utilities from `./bin/common.sh` to ensure consistent behavior and reduce code duplication.
 
 
 ## Contributing
@@ -116,12 +132,22 @@ To start understanding the system, you might:
  1. Clone this repo, `cd docs`, run `./bin/build`, and open your browser to [http://127.0.0.1:8000](http://127.0.0.1:8000) to view (and ideally edit!) the docs
  1. Check out our [GitHub issues](https://github.com/sartography/spiff-arena/issues), find something you like, and ask for help on discord
 
-## Monorepo
+## Project Structure
+
+### Monorepo
 
 This is a monorepo based on git subtrees that pulls together various spiffworkflow-related projects.
 FYI, some scripts:
 
     ls bin | grep subtree
+
+### Scripts Organization
+
+The project uses a streamlined script organization:
+
+- **Common Utilities**: Shared functions and variables in `bin/common.sh`
+- **Main Scripts**: Task-specific scripts that source the common utilities
+- **Simplified Workflow**: Each script focuses on a specific task while sharing common code
 
 ## License
 
