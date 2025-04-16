@@ -22,7 +22,7 @@ import {
   modifyProcessIdentifierForPathParam,
   refreshAtInterval,
   titleizeString,
-} from '../helpers';
+} from '../../helpers';
 
 import {
   PaginationObject,
@@ -32,17 +32,17 @@ import {
   ReportFilter,
   ReportMetadata,
   SpiffTableHeader,
-} from '../interfaces';
-import DateAndTimeService from '../services/DateAndTimeService';
-import HttpService from '../services/HttpService';
-import UserService from '../services/UserService';
-import PaginationForTable from './PaginationForTable';
-import TableCellWithTimeAgoInWords from './TableCellWithTimeAgoInWords';
+} from '../../interfaces';
+import DateAndTimeService from '../../services/DateAndTimeService';
+import HttpService from '../../services/HttpService';
+import UserService from '../../services/UserService';
+import PaginationForTable from '../../components/PaginationForTable';
+import TableCellWithTimeAgoInWords from '../../components/TableCellWithTimeAgoInWords';
 import {
   childrenForErrorObject,
   errorForDisplayFromString,
-} from './ErrorDisplay';
-import SpiffTooltip from './SpiffTooltip';
+} from '../../components/ErrorDisplay';
+import SpiffTooltip from '../../components/SpiffTooltip';
 
 type OwnProps = {
   additionalReportFilters?: ReportFilter[];
