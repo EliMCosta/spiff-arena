@@ -9,6 +9,10 @@
 
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["vite/client", "node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "a-spiffui-v3/*": ["packages/spiffui-v3/*"]
+    },
 
     "module": "esnext",
     "target": "ESNext",
@@ -16,5 +20,5 @@
 
     "isolatedModules": true
   },
-  "include": ["src", "test/vitest.setup.ts"]
+  "include": ["src", "packages/spiffui-v3", "test/vitest.setup.ts"]
 }
