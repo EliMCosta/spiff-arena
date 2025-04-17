@@ -56,6 +56,8 @@ function InstancesStartedByMe({
             bgcolor: 'background.default',
             p: 2,
             boxShadow: 1,
+            transform: 'none',
+            willChange: 'auto',
           }}
         >
           <Typography variant="h1" sx={{ fontSize: '1.5rem' }}>
@@ -76,8 +78,6 @@ function InstancesStartedByMe({
         }}
         taskControlElement={
           <TaskControls
-            // showNonActive={showNonActive}
-            // setShowNonActive={setShowNonActive}
             setViewMode={setViewMode}
             viewMode={viewMode}
           />
@@ -86,7 +86,6 @@ function InstancesStartedByMe({
       <TaskTable
         entries={processInstances}
         viewMode={viewMode}
-        // showNonActive={showNonActive}
       />
     </>
   );

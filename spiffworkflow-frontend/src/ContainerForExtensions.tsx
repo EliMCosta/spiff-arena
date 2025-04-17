@@ -76,11 +76,6 @@ export default function ContainerForExtensions() {
     } else {
       setIsNavCollapsed(!isNavCollapsed);
     }
-    if (isMobile) {
-      setIsSideNavVisible(!isSideNavVisible);
-    } else {
-      setIsNavCollapsed(!isNavCollapsed);
-    }
   };
 
   const toggleDarkMode = () => {
@@ -246,13 +241,16 @@ export default function ContainerForExtensions() {
           maxWidth={false}
           data-theme={globalTheme.palette.mode}
           sx={{
-            // Hack to position the internal view over the "old" base components
             position: 'absolute',
             top: 0,
             left: 0,
             alignItems: 'center',
             zIndex: 1000,
             padding: '0px !important',
+            width: '100vw',
+            height: '100vh',
+            transform: 'none',
+            backfaceVisibility: 'hidden',
           }}
         >
           <Grid
@@ -260,6 +258,7 @@ export default function ContainerForExtensions() {
             container
             sx={{
               height: '100%',
+              transform: 'none',
             }}
           >
             <Box
@@ -268,7 +267,8 @@ export default function ContainerForExtensions() {
                 display: 'flex',
                 width: '100%',
                 height: '100vh',
-                overflow: 'hidden', // Consider removing this if the child's overflow: auto is sufficient
+                overflow: 'hidden',
+                transform: 'none',
               }}
             >
               {isSideNavVisible && (
@@ -308,7 +308,10 @@ export default function ContainerForExtensions() {
                   display: 'flex',
                   flexDirection: 'column',
                   flexGrow: 1,
-                  overflow: 'auto', // allow scrolling
+                  overflow: 'auto',
+                  transform: 'none',
+                  willChange: 'opacity',
+                  transformStyle: 'flat',
                 }}
                 onAnimationEnd={(e) => {
                   if (e.animationName === fadeOutImmediate) {

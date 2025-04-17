@@ -1,7 +1,6 @@
 import { defineAbility } from '@casl/ability';
 
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AbilityContext } from './contexts/Can';
 import APIErrorProvider from './contexts/APIErrorContext';
@@ -23,8 +22,7 @@ export default function App() {
   };
 
   /**
-   * Note that QueryClientProvider and ReactQueryDevTools
-   * are React Query, now branded under the Tanstack packages.
+   * Note that QueryClientProvider is React Query, now branded under the Tanstack packages.
    * https://tanstack.com/query/latest
    */
   const layout = () => {
@@ -34,7 +32,6 @@ export default function App() {
           <APIErrorProvider>
             <AbilityContext.Provider value={ability}>
               <Outlet />
-              <ReactQueryDevtools initialIsOpen={false} />
             </AbilityContext.Provider>
           </APIErrorProvider>
         </QueryClientProvider>

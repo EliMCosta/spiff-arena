@@ -247,11 +247,9 @@ export default function ProcessInterstitial({
     displayableData = [data[0]];
   }
 
-  const className = (index: number) => {
-    if (displayableData.length === 1) {
-      return 'user_instructions';
-    }
-    return index < 4 ? `user_instructions_${index}` : `user_instructions_4`;
+  const className = (_index: number) => {
+    // Use same class for all elements to maintain consistent font size
+    return 'user_instructions';
   };
 
   const innerComponents = () => {
@@ -283,6 +281,10 @@ export default function ProcessInterstitial({
         flexGrow: 1,
         p: 3,
         overflow: 'auto',
+        transform: 'none',
+        willChange: 'opacity',
+        transformStyle: 'preserve-3d',
+        backfaceVisibility: 'hidden'
       }}
     >
       {innerComponents()}

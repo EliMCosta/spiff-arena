@@ -2,6 +2,15 @@
 /* header is mainly using g100 */
 /* mockup wanted white, not grey, text */
 
+html, body {
+  font-size: 16px !important;
+  zoom: 1 !important;
+  transform: none !important;
+  -webkit-text-size-adjust: 100% !important;
+  -ms-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+
 body {
   /* This prevents the annoying MUI select box layout shift */
   overflow-y: auto !important;
@@ -754,36 +763,16 @@ svg.notification-icon {
   font-weight: bold;
 }
 
-.user_instructions {
-  filter: opacity(1);
-  font-size: 1.2em;
-  margin: 15px 0;
-}
-
-.user_instructions_0 {
-  filter: opacity(1);
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-}
-
-.user_instructions_1 {
-  filter: opacity(60%);
-  font-size: 1.1rem;
-}
-
-.user_instructions_2 {
-  filter: opacity(40%);
-  font-size: 1rem;
-}
-
-.user_instructions_3 {
-  filter: opacity(20%);
-  font-size: 9rem;
-}
-
+.user_instructions,
+.user_instructions_0,
+.user_instructions_1,
+.user_instructions_2,
+.user_instructions_3,
 .user_instructions_4 {
-  filter: opacity(10%);
-  font-size: 8rem;
+  font-size: 1rem;
+  margin: 1rem 0;
+  opacity: 1;
+  transition: none;
 }
 
 .user-list {

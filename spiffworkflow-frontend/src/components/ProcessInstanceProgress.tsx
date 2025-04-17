@@ -146,11 +146,9 @@ export default function ProcessInstanceProgress({
   };
 
   if (taskInstructionForEndUserList) {
-    const className = (index: number) => {
-      if (taskInstructionForEndUserList.length === 1) {
-        return 'user_instructions';
-      }
-      return index < 4 ? `user_instructions_${index}` : `user_instructions_4`;
+    const className = (_index: number) => {
+      // Always return the same class name for consistent font size
+      return 'user_instructions';
     };
     return (
       <div>

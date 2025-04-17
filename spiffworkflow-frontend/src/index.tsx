@@ -2,7 +2,6 @@ import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App';
 
 import './index.scss';
@@ -61,7 +60,6 @@ const doRender = () => {
             <App />
           </ThemeProvider>
         </ThemeProvider>
-        {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </React.StrictMode>,
   );
