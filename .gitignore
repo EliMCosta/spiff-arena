@@ -14,3 +14,6 @@ process_models
 .aider*
 /spiffworkflow_docker_compose
 .DS_Store
+.devcontainer
+.venv
+.ruff_cache
