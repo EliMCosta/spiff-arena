@@ -153,9 +153,3 @@ The project uses a streamlined script organization:
 
 SpiffArena's main components are published under the terms of the
 [GNU Lesser General Public License (LGPL) Version 3](https://www.gnu.org/licenses/lgpl-3.0.txt).
-
-## Support
-
-You can find us on [our Discord Channel](https://discord.gg/BYHcc7PpUC).
-Commercial support for SpiffWorkflow is available from [Sartography](https://sartography.com).
-Please contact us via the schedule a demo link on the [SpiffWorkflow website](https://spiffworkflow.org) to discuss your needs.
