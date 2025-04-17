@@ -18,9 +18,9 @@ import {
 const customPalette = (mode: PaletteMode) => {
   const lightModeColors = {
     success: {
-      main: green[300],
-      light: green[100],
-      dark: green[500],
+      main: red[700],
+      light: red[300],
+      dark: red[900],
     },
     warning: {
       main: orange[300],
@@ -72,9 +72,9 @@ const customPalette = (mode: PaletteMode) => {
   };
   const darkModeColors = {
     success: {
-      main: green[500],
-      light: green[300],
-      dark: green[700],
+      main: red[700],
+      light: red[300],
+      dark: red[900],
       contrastText: '#fff',
     },
     warning: {
@@ -177,9 +177,9 @@ const baseTheme = (mode: PaletteMode) => {
   const lightModeColors = {
     palette: {
       primary: {
-        main: cyan[600],
-        light: cyan[400],
-        dark: cyan[800],
+        main: '#800020',
+        light: '#a23a4d',
+        dark: '#4b0014',
         contrastText: '#ffffff',
       },
       secondary: {
@@ -193,9 +193,9 @@ const baseTheme = (mode: PaletteMode) => {
   const darkModeColors = {
     palette: {
       primary: {
-        main: cyan[800],
-        light: cyan[600],
-        dark: cyan[900],
+        main: '#800020',
+        light: '#a23a4d',
+        dark: '#4b0014',
         contrastText: '#ffffff',
       },
       secondary: {

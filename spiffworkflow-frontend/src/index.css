@@ -659,7 +659,7 @@ th.table-header-right-align .cds--table-header-label {
 }
 
 .cds--btn--ghost:not([disabled]).green-icon svg {
-  fill: #198038;
+  fill: #800020;
 }
 
 .cds--btn--ghost:not([disabled]) svg.red-icon {
@@ -667,7 +667,7 @@ th.table-header-right-align .cds--table-header-label {
 }
 
 svg.green-icon {
-  fill: #198038;
+  fill: #800020;
 }
 
 svg.notification-icon {
@@ -1155,4 +1155,9 @@ div.retrievalExpressionsForm {
 
 .reports-search-text-field {
   min-width: 100%;
+}
+
+.spiff-logo svg {
+  color: #000 !important;
+  fill: currentColor !important;
 }

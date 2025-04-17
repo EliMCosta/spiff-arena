@@ -7,6 +7,7 @@ import SpiffIcon from '../assets/icons/spiff-icon-cyan.svg';
 export default function SpiffLogo() {
   return (
     <Stack
+      className="spiff-logo"
       direction="row"
       sx={{
         alignItems: 'center',
