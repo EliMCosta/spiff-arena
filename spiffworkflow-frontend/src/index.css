@@ -1161,3 +1161,11 @@ div.retrievalExpressionsForm {
   color: #000 !important;
   fill: currentColor !important;
 }
+
+.spiff-logo span, .spiff-logo .MuiTypography-root {
+  text-decoration: none !important;
+}
+
+.spiff-logo a, .spiff-logo a:link, .spiff-logo a:visited, .spiff-logo a:hover, .spiff-logo a:active, .spiff-logo a:focus {
+  text-decoration: none !important;
+}
