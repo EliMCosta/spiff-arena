@@ -1,1 +1,0 @@
-# This file has been removed as Keycloak is no longer supported. Use the default OpenID setup instead.

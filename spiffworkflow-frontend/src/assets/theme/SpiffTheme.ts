@@ -3,7 +3,6 @@ import {
   blue,
   blueGrey,
   cyan,
-  green,
   grey,
   lightBlue,
   orange,

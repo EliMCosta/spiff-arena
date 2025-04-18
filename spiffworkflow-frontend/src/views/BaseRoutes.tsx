@@ -9,11 +9,17 @@ import ErrorDisplay from '../components/ErrorDisplay';
 // Lazy-loaded components
 const Homepage = lazy(() => import('./Homepage'));
 const Processes = lazy(() => import('./StartProcess/Processes'));
-const StartProcessInstance = lazy(() => import('./StartProcess/StartProcessInstance'));
+const StartProcessInstance = lazy(
+  () => import('./StartProcess/StartProcessInstance'),
+);
 const InstancesStartedByMe = lazy(() => import('./InstancesStartedByMe'));
 const TaskShow = lazy(() => import('./TaskShow/TaskShow'));
-const ProcessInterstitialPage = lazy(() => import('./TaskShow/ProcessInterstitialPage'));
-const ProcessInstanceProgressPage = lazy(() => import('./TaskShow/ProcessInstanceProgressPage'));
+const ProcessInterstitialPage = lazy(
+  () => import('./TaskShow/ProcessInterstitialPage'),
+);
+const ProcessInstanceProgressPage = lazy(
+  () => import('./TaskShow/ProcessInstanceProgressPage'),
+);
 const About = lazy(() => import('./About'));
 const MessageListPage = lazy(() => import('./MessageListPage'));
 const DataStoreRoutes = lazy(() => import('./DataStoreRoutes'));
@@ -28,18 +34,31 @@ const ProcessModelEdit = lazy(() => import('./ProcessModelEdit'));
 const ProcessModelEditDiagram = lazy(() => import('./ProcessModelEditDiagram'));
 const ReactFormEditor = lazy(() => import('./ReactFormEditor'));
 const ProcessInstanceRoutes = lazy(() => import('./ProcessInstanceRoutes'));
-const ProcessInstanceShortLink = lazy(() => import('./ProcessInstanceShortLink'));
+const ProcessInstanceShortLink = lazy(
+  () => import('./ProcessInstanceShortLink'),
+);
 const Extension = lazy(() => import('./Extension'));
 const ProcessGroupNew = lazy(() => import('./ProcessGroupNew'));
 const ProcessGroupEdit = lazy(() => import('./ProcessGroupEdit'));
-const ProcessModelNewExperimental = lazy(() => import('./ProcessModelNewExperimental'));
+const ProcessModelNewExperimental = lazy(
+  () => import('./ProcessModelNewExperimental'),
+);
 
 // Loading component for Suspense
-const LoadingFallback = () => (
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-    <CircularProgress />
-  </Box>
-);
+function LoadingFallback() {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+}
 
 type OwnProps = {
   setAdditionalNavElement: Function;
@@ -145,7 +164,9 @@ export default function BaseRoutes({
           <Route path="/data-stores/*" element={<DataStoreRoutes />} />
           <Route
             path="/configuration/*"
-            element={<Configuration extensionUxElements={extensionUxElements} />}
+            element={
+              <Configuration extensionUxElements={extensionUxElements} />
+            }
           />
           <Route path="/authentication-list" element={<AuthenticationList />} />
           <Route path="/secrets" element={<SecretList />} />{' '}
@@ -179,7 +200,10 @@ export default function BaseRoutes({
             path="/process-models/:process_model_id/form"
             element={<ReactFormEditor />}
           />
-          <Route path="process-instances/*" element={<ProcessInstanceRoutes />} />
+          <Route
+            path="process-instances/*"
+            element={<ProcessInstanceRoutes />}
+          />
           <Route
             path="i/:process_instance_id"
             element={<ProcessInstanceShortLink />}

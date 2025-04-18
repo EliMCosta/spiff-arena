@@ -124,32 +124,6 @@ The project provides simple shell scripts for common development tasks:
 
 These scripts use shared utilities from `./bin/common.sh` to ensure consistent behavior and reduce code duplication.
 
-
-## Contributing
-
-To start understanding the system, you might:
-
- 1. Explore the demo site via the [Getting Started Guide](https://www.spiffworkflow.org/posts/articles/get_started)
- 1. Clone this repo, `cd docs`, run `./bin/build`, and open your browser to [http://127.0.0.1:8000](http://127.0.0.1:8000) to view (and ideally edit!) the docs
- 1. Check out our [GitHub issues](https://github.com/sartography/spiff-arena/issues), find something you like, and ask for help on discord
-
-## Project Structure
-
-### Monorepo
-
-This is a monorepo based on git subtrees that pulls together various spiffworkflow-related projects.
-FYI, some scripts:
-
-    ls bin | grep subtree
-
-### Scripts Organization
-
-The project uses a streamlined script organization:
-
-- **Common Utilities**: Shared functions and variables in `bin/common.sh`
-- **Main Scripts**: Task-specific scripts that source the common utilities
-- **Simplified Workflow**: Each script focuses on a specific task while sharing common code
-
 ## License
 
 SpiffArena's main components are published under the terms of the

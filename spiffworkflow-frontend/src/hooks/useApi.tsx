@@ -1,6 +1,10 @@
-import { useQuery, useMutation, useQueryClient, QueryKey } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryKey,
+} from '@tanstack/react-query';
 import ApiService from '../services/ApiService';
-import { ProcessInstance, ProcessModel, ProcessGroup } from '../interfaces';
 
 // Common query keys for better cache management
 export const queryKeys = {
@@ -20,7 +24,7 @@ export const queryKeys = {
 export function useProcessInstances(filters?: any, options = {}) {
   return useQuery({
     queryKey: [queryKeys.processInstances, filters],
-    queryFn: () => 
+    queryFn: () =>
       ApiService.post('/process-instances', { report_metadata: filters || {} }),
     ...options,
   });
@@ -89,9 +93,9 @@ export function useProcessGroup(id: string | undefined, options = {}) {
  */
 export function useStartProcessInstance() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (processModelId: string) => 
+    mutationFn: (processModelId: string) =>
       ApiService.post(`/process-models/${processModelId}/process-instances`),
     onSuccess: () => {
       // Invalidate relevant queries to refresh data
@@ -105,13 +109,26 @@ export function useStartProcessInstance() {
  */
 export function useCompleteTask() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ processInstanceId, taskId, formData }: { processInstanceId: number, taskId: string, formData: any }) => 
-      ApiService.put(`/process-instances/${processInstanceId}/tasks/${taskId}`, formData),
+    mutationFn: ({
+      processInstanceId,
+      taskId,
+      formData,
+    }: {
+      processInstanceId: number;
+      taskId: string;
+      formData: any;
+    }) =>
+      ApiService.put(
+        `/process-instances/${processInstanceId}/tasks/${taskId}`,
+        formData,
+      ),
     onSuccess: (_data, variables) => {
       // Invalidate relevant queries to refresh data
-      queryClient.invalidateQueries({ queryKey: queryKeys.processInstance(variables.processInstanceId) });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.processInstance(variables.processInstanceId),
+      });
       queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
     },
   });
@@ -123,7 +140,7 @@ export function useCompleteTask() {
 export function useApi<T>(
   key: QueryKey,
   apiCall: () => Promise<T>,
-  options = {}
+  options = {},
 ) {
   return useQuery({
     queryKey: key,

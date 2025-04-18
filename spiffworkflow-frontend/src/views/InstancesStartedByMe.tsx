@@ -77,16 +77,10 @@ function InstancesStartedByMe({
           }
         }}
         taskControlElement={
-          <TaskControls
-            setViewMode={setViewMode}
-            viewMode={viewMode}
-          />
+          <TaskControls setViewMode={setViewMode} viewMode={viewMode} />
         }
       />
-      <TaskTable
-        entries={processInstances}
-        viewMode={viewMode}
-      />
+      <TaskTable entries={processInstances} viewMode={viewMode} />
     </>
   );
 }

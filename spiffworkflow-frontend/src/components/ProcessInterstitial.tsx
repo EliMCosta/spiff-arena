@@ -284,7 +284,7 @@ export default function ProcessInterstitial({
         transform: 'none',
         willChange: 'opacity',
         transformStyle: 'preserve-3d',
-        backfaceVisibility: 'hidden'
+        backfaceVisibility: 'hidden',
       }}
     >
       {innerComponents()}
