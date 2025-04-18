@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-docker compose -f editor.docker-compose.yml down
+>&2 echo "This script is obsolete: editor.docker-compose.yml has been removed."
+exit 1

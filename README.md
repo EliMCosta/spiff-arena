@@ -98,7 +98,6 @@ The project uses Docker for both development and production environments. All Do
 
 - `docker-compose.yml` - Standard configuration for running the full application
 - `dev.docker-compose.yml` - Development configuration with volume mounts for live code changes
-- `editor.docker-compose.yml` - Provides BPMN graphical editor capability to libraries and projects that depend on SpiffWorkflow
 
 ### Live Code Changes
 
