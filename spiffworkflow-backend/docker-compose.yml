@@ -1,11 +1,6 @@
 # Why we are running with network_mode: host
-# Wow this has been awful. We run three things in docker: mysql, keycloak, and the backend server.
-# The backend-server needs to talk to the other two.
-#
-# In order to talk to keycloak, it needs to go through localhost so that it can communicate with
-# keycloak using the same url as the frontend so that tokens can be properly validated.
-# If the domains are different, keycloak invalidates the token. There may be a way to change
-# this but I didn't find it.
+# Wow this has been awful. We run three things in docker: mysql and the backend server.
+# The backend-server needs to talk to the other one.
 #
 # In order for the backend server to talk to the mysql server, they need to be on the same network.
 # I tried splitting it out where the mysql runs on a custom network and the backend runs on both
@@ -13,7 +8,7 @@
 # only ever mentioned one thing or using host.docker.internal which would cause the domains to
 # be different.
 #
-# So instead we are running with both the mysql server and the backend server in host netowrk mode.
+# So instead we are running with both the mysql server and the backend server in host network mode.
 # There may be a better way to do this but if it works, then it works.
 
 version: "3.8"
@@ -56,7 +51,6 @@ services:
       - SPIFFWORKFLOW_BACKEND_DATABASE_URI=mysql+mysqldb://root:${SPIFFWORKFLOW_BACKEND_MYSQL_ROOT_DATABASE:-my-secret-pw}@127.0.0.1:7003/${SPIFFWORKFLOW_BACKEND_DATABASE_NAME:-spiffworkflow_backend_development}
       - SPIFFWORKFLOW_BACKEND_ENV=${SPIFFWORKFLOW_BACKEND_ENV:-local_development}
       - SPIFFWORKFLOW_BACKEND_LOAD_FIXTURE_DATA=${SPIFFWORKFLOW_BACKEND_LOAD_FIXTURE_DATA:-false}
-      - SPIFFWORKFLOW_BACKEND_OPEN_ID_SERVER_URL=${SPIFFWORKFLOW_BACKEND_OPEN_ID_SERVER_URL:-http://localhost:7002/realms/spiffworkflow-local}
       - SPIFFWORKFLOW_BACKEND_PERMISSIONS_FILE_NAME=${SPIFFWORKFLOW_BACKEND_PERMISSIONS_FILE_NAME:-acceptance_tests.yml}
       - SPIFFWORKFLOW_BACKEND_PORT=7000
         # the background scheduler picks up process instances that we set in a certain state and then runs them like running not_started instances

@@ -54,6 +54,7 @@ The setup and start scripts automatically ensure proper permissions for the `pro
 If you encounter any permission issues, you can run:
 
 ```bash
+sudo chown -R $USER:$USER process_models
 ./bin/fix-permissions.sh
 ```
 

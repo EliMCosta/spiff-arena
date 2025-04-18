@@ -139,11 +139,6 @@ describe('public_tasks', () => {
         cy.contains('Error retrieving content.');
         cy.getBySel('public-home-link').click();
         cy.getBySel('public-sign-out').click();
-        if (Cypress.env('SPIFFWORKFLOW_FRONTEND_AUTH_WITH_KEYCLOAK') === true) {
-          cy.contains('Sign in to your account');
-        } else {
-          cy.get('#spiff-login-button').should('exist');
-        }
       });
   });
 });

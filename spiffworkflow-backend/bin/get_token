@@ -3,7 +3,6 @@
 import base64
 import json
 import os
-import re
 import sys
 from typing import Any
 
@@ -19,7 +18,6 @@ def get_argv(index: int, default: Any = None) -> Any:
 
 username = get_argv(1, "admin")
 password = get_argv(2, "admin")
-realm_name = get_argv(3, "spiffworkflow-local")
 
 OPEN_ID_CODE = ":this_is_not_secure_do_not_use_in_production"
 
@@ -28,27 +26,8 @@ backend_client_id = os.getenv("BACKEND_CLIENT_ID", "spiffworkflow-backend")
 backend_client_secret = os.getenv("BACKEND_CLIENT_secret", "JXeQExm0JhQPLumgHtIIqf52bDalHz0q")
 
 openid_token_url = os.getenv("OPENID_TOKEN_URL")
-keycloak_base_url = os.getenv("KEYCLOAK_BASE_URL")
 if openid_token_url is None:
-    if keycloak_base_url is not None:
-        if "spiffworkflow.org" in backend_base_url:
-            pattern = r".*api\.(\w+\.spiffworkflow.org).*"
-            match = re.search(pattern, backend_base_url)
-            if match is None:
-                raise Exception("Could not determine openid url based on backend url")
-            env_domain = match.group(1)
-            keycloak_base_url = "https://keycloak.${env_domain}"
-        import urllib.parse
-
-        token_path = "/protocol/openid-connect/token"  # noqa: S105
-        if "/realms" in keycloak_base_url:
-            openid_token_url = f"{keycloak_base_url}{token_path}"
-        else:
-            # Sanitize realm_name to prevent path traversal
-            safe_realm = urllib.parse.quote(realm_name, safe="")
-            openid_token_url = f"{keycloak_base_url}/realms/{safe_realm}{token_path}"
-    else:
-        openid_token_url = f"{backend_base_url}/openid/token"
+    openid_token_url = f"{backend_base_url}/openid/token"
 
 
 def get_auth_token_object() -> dict:

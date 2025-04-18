@@ -53,11 +53,7 @@ Cypress.Commands.add('login', (username, password) => {
   }
   cy.get('#username').type(usernameToUse);
   cy.get('#password').type(passwordToUse);
-  if (Cypress.env('SPIFFWORKFLOW_FRONTEND_AUTH_WITH_KEYCLOAK') === true) {
-    cy.get('#kc-login').click();
-  } else {
-    cy.get('#spiff-login-button').click();
-  }
+  cy.get('#spiff-login-button').click();
 });
 
 Cypress.Commands.add('logout', (_selector, ..._args) => {
@@ -66,14 +62,7 @@ Cypress.Commands.add('logout', (_selector, ..._args) => {
   cy.get('.user-profile-toggletip-button').click();
 
   cy.getBySel('logout-button').click();
-  if (Cypress.env('SPIFFWORKFLOW_FRONTEND_AUTH_WITH_KEYCLOAK') === true) {
-    // otherwise we can click logout, quickly load the next page, and the javascript
-    // doesn't have time to actually sign you out
-    // cy.wait(4000);
-    cy.contains('Sign in to your account');
-  } else {
-    cy.get('#spiff-login-button').should('exist');
-  }
+  cy.get('#spiff-login-button').should('exist');
 });
 
 Cypress.Commands.add('createGroup', (groupId, groupDisplayName) => {

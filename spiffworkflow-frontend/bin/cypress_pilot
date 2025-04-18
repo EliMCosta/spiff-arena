@@ -26,10 +26,6 @@ else
   ATTEMPTS=1
 fi
 
-if [[ -z "${CYPRESS_SPIFFWORKFLOW_FRONTEND_AUTH_WITH_KEYCLOAK:-}" ]]; then
-  export CYPRESS_SPIFFWORKFLOW_FRONTEND_AUTH_WITH_KEYCLOAK=true
-fi
-
 if [[ -f cypress.env ]]; then
   # shellcheck disable=1091
   source cypress.env
